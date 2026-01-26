@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <title>Factura / Presupuesto</title>
 
-  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="css.css">
 
-  <!-- jsPDF + html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -27,88 +24,81 @@
 
 <div class="hoja-a4" id="factura">
 
-  <!-- ENCABEZADO -->
   <header class="encabezado">
     <h1 id="tipoTitulo">FACTURA</h1>
-
     <div class="subtitulo">
-      <div>Fecha: <input type="date" id="fecha"></div>
-      <div>Número: <input type="number" id="numero" placeholder="Número"></div>
+      <div>Fecha: <input type="date"></div>
+      <div>Número: <input type="number" placeholder="Número"></div>
     </div>
   </header>
 
-  <!-- DATOS -->
   <section class="datos">
-
-    <!-- CLIENTE -->
     <div class="cliente">
       <h3>CLIENTE:</h3>
       <textarea placeholder="Comunidad de propietarios"></textarea>
-      <textarea placeholder="Calle y número"></textarea>
-      <textarea placeholder="Local, portal, patio de luces…"></textarea>
+      <textarea placeholder="Dirección"></textarea>
+      <textarea placeholder="Otros"></textarea>
       <textarea placeholder="Ciudad"></textarea>
     </div>
 
-    <!-- EMPRESA -->
     <div class="empresa">
       <h3>EMPRESA:</h3>
       <strong>Jhon Alexander Caballero</strong>
       <p><strong>Calle Guadalquivir 11</strong></p>
-      <p><strong>Alicante, CP: 03699</strong></p>
-      <p><strong>D.N.I: 1407574N</strong></p>
-      <p><strong>688-334-111</strong></p>
+      <p><strong>Alicante · 03699</strong></p>
+      <p><strong>DNI 1407574N</strong></p>
+      <p><strong>688 334 111</strong></p>
       <p><strong>caballerojhon968@gmail.com</strong></p>
     </div>
-
   </section>
 
-  <!-- TABLA -->
   <section class="bloque-tabla">
     <table class="tabla">
       <thead>
         <tr>
-          <th>DESCRIPCIÓN</th>
-          <th>PRECIO</th>
+          <th class="col-desc">DESCRIPCIÓN</th>
+          <th class="col-precio">PRECIO</th>
         </tr>
       </thead>
+
       <tbody id="tablaProductos">
         <tr>
-          <td><textarea class="descripcion" placeholder="Descripción"></textarea></td>
-          <td><input type="number" class="precio" placeholder="Precio €" oninput="calcular()"></td>
+          <td class="col-desc"><textarea placeholder="Descripción"></textarea></td>
+          <td class="col-precio">
+            <input type="number" class="precio" placeholder="Precio(€)" oninput="calcular() ">
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <button onclick="agregarFila()">➕ Añadir línea</button>
+    <div class="acciones-lineas">
+      <button onclick="agregarFila()">➕ Añadir línea</button>
+      <button onclick="eliminarFila()">➖ Eliminar línea</button>
+    </div>
   </section>
 
-  <!-- TOTALES -->
   <section class="totales">
-  <div class="fila">
-    <span class="label">BASE</span>
-    <span class="valor" id="base">0.00 €</span>
-  </div>
-
-  <div class="fila">
-    <span class="label">IVA</span>
-    <span class="valor">
-      <input type="number" id="iva" value="21" oninput="calcular()"> %
-    </span>
-  </div>
-
-  <div class="fila">
-    <span class="label">IRPF</span>
-    <span class="valor">
-      <input type="number" id="irpf" value="0" oninput="calcular()"> %
-    </span>
-  </div>
-
-  <div class="fila total">
-    <span class="label">TOTAL</span>
-    <span class="valor" id="total">0.00 €</span>
-  </div>
-</section>
-
+    <div class="fila">
+      <span class="label">BASE</span>
+      <span class="valor" id="base">0.00 €</span>
+    </div>
+    <div class="fila">
+      <span class="label">IVA</span>
+      <span class="valor">
+        <input type="number" id="iva" value="21" oninput="calcular()"> %
+      </span>
+    </div>
+    <div class="fila">
+      <span class="label">IRPF</span>
+      <span class="valor">
+        <input type="number" id="irpf" value="0" oninput="calcular()"> %
+      </span>
+    </div>
+    <div class="fila total">
+      <span class="label">TOTAL</span>
+      <span class="valor" id="total">0.00 €</span>
+    </div>
+  </section>
 
   <footer class="pie"></footer>
 

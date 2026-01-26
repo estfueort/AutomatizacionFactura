@@ -7,15 +7,24 @@ function agregarFila() {
   document.getElementById("tablaProductos").insertAdjacentHTML(
     "beforeend",
     `<tr>
-      <td><textarea class="descripcion" placeholder="Descripción"></textarea></td>
-      <td><input type="number" class="precio" placeholder="Precio €" oninput="calcular()"></td>
+      <td class="col-desc"><textarea></textarea></td>
+      <td class="col-precio">
+        <input type="number" class="precio" oninput="calcular()">
+      </td>
     </tr>`
   );
 }
 
+function eliminarFila() {
+  const tabla = document.getElementById("tablaProductos");
+  if (tabla.rows.length > 1) {
+    tabla.deleteRow(-1);
+    calcular();
+  }
+}
+
 function calcular() {
   let base = 0;
-
   document.querySelectorAll(".precio").forEach(p => {
     base += parseFloat(p.value) || 0;
   });
@@ -29,7 +38,7 @@ function calcular() {
   document.getElementById("total").innerText = total.toFixed(2) + " €";
 }
 
-/* Textarea auto-altura */
+/* Auto altura textarea */
 document.addEventListener("input", e => {
   if (e.target.tagName === "TEXTAREA") {
     e.target.style.height = "auto";
@@ -37,7 +46,7 @@ document.addEventListener("input", e => {
   }
 });
 
-/* PDF */
+/* PDF multipágina */
 function descargarPDF() {
   const factura = document.getElementById("factura");
   const { jsPDF } = window.jspdf;
@@ -46,7 +55,23 @@ function descargarPDF() {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const pdf = new jsPDF("p", "mm", "a4");
 
-    pdf.addImage(imgData, "JPEG", 0, 0, 210, 297);
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const imgHeight = canvas.height * pageWidth / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "JPEG", 0, position, pageWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "JPEG", 0, position, pageWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
     pdf.save("factura.pdf");
   });
 }

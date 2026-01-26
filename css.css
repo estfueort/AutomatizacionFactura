@@ -9,58 +9,34 @@ body {
   margin-bottom: 20px;
 }
 
-.controles select,
-.controles button {
-  padding: 8px 12px;
-  margin: 0 5px;
-}
-
 .hoja-a4 {
   width: 210mm;
-  height: 297mm;
+  min-height: 297mm;
   background: white;
   margin: auto;
   box-shadow: 0 0 12px rgba(0,0,0,.3);
-  position: relative;
   color: #0a2d5a;
+  position: relative;
 }
 
 /* ENCABEZADO */
 .encabezado {
-  height: 40mm;
   background: linear-gradient(to right, #0a2d5a, #3c8cdc);
   color: white;
   padding: 20px;
 }
-/* Inputs invisibles (fecha y número) */
+
+.encabezado h1 {
+  margin: 0;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+}
+
 .encabezado input {
   background: transparent;
   border: none;
   color: white;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  outline: none;
-}
-.encabezado input:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-
-/* Icono del calendario en blanco (Chrome) */
-.encabezado input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
-
-.encabezado h1 {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  font-size: 35px;
-  text-align: center;
-}
-
-.subtitulo {
-  margin-top: 10px;
 }
 
 /* DATOS */
@@ -70,8 +46,7 @@ body {
   padding: 20px;
 }
 
-.cliente,
-.empresa {
+.cliente, .empresa {
   width: 50%;
 }
 
@@ -83,18 +58,10 @@ textarea {
   width: 100%;
   border: none;
   resize: none;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.4;
-  margin-bottom: 5px;
 }
 
 /* TABLA */
-.bloque-tabla {
-  padding: 0 20px;
-}
-
+/* TABLA */
 .tabla {
   width: 100%;
   border-collapse: collapse;
@@ -106,72 +73,93 @@ textarea {
   padding: 8px;
 }
 
+/* 🔹 ENCABEZADOS SOLO DESCRIPCIÓN Y PRECIO */
 .tabla th {
-  background: #0a2d5a;
-  color: white;
-}
-
-.tabla td:first-child {
-  width: 70%;
-}
-
-.tabla td:last-child {
-  width: 30%;
-}
-
-/* === TOTALES CON BORDE NEGRO === */
-
-.totales {
-  width: 40%;
-  margin-left: auto;
-  margin-right: 20px;
-  margin-top: 20px;
-
-  border: 2px solid #000;   /* marco exterior */
-}
-
-.totales .fila {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #000; /* líneas internas */
-}
-
-.totales .fila:last-child {
-  border-bottom: none; /* no duplicar línea abajo */
-}
-
-.totales .label {
-  width: 45%;
-  padding: 8px 10px;
-  text-align: right;
+  background: #0a2d5a;      /* azul marino */
+  color: white;             /* letras blancas */
+  text-transform: uppercase;
   font-weight: bold;
-
-  background: #0a2d5a;
-  color: white;
-
-  border-right: 1px solid #000; /* línea vertical central */
+  text-align: center;
 }
 
-.totales .valor {
-  width: 55%;
-  padding: 8px 10px;
+/* Proporciones */
+.col-desc {
+  width: 66.66%;
+}
+
+.col-precio {
+  width: 33.33%;
   text-align: right;
-  white-space: nowrap;
 }
 
-.totales input {
-  width: 60px;
+/* Precio alineado */
+.precio {
+  width: 100%;
   text-align: right;
   border: none;
   outline: none;
 }
 
-/* TOTAL destacado */
-.totales .total .label,
-.totales .total .valor {
-  font-size: 16px;
+/* 🔹 2/3 y 1/3 */
+.col-desc {
+  width: 66.66%;
+}
+
+.col-precio {
+  width: 33.33%;
+  text-align: right;
+}
+
+/* Precio alineado */
+.precio {
+  width: 100%;
+  text-align: right;
+  border: none;
+  outline: none;
+}
+
+/* BOTONES */
+.acciones-lineas {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* TOTALES */
+.totales {
+  width: 40%;
+  margin: 20px 20px 40px auto; /* 👉 totalmente a la derecha */
+  border: 2px solid #000;
+}
+
+.totales .fila {
+  display: flex;
+  border-bottom: 1px solid #000;
+}
+
+.totales .fila:last-child {
+  border-bottom: none;
+}
+
+.totales .label {
+  width: 45%;
+  background: #0a2d5a;
+  color: white;
+  text-align: right;
+  padding: 8px;
   font-weight: bold;
+}
+
+.totales .valor {
+  width: 55%;
+  text-align: right;
+  padding: 8px;
+}
+
+.totales input {
+  width: 60px;
+  border: none;
+  text-align: right;
 }
 
 /* PIE */
