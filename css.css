@@ -119,27 +119,58 @@ textarea {
   width: 30%;
 }
 
-/* TOTALES */
+/* === TOTALES CON BORDE NEGRO === */
+
 .totales {
-  width: 45%;
+  width: 40%;
   margin-left: auto;
-  margin: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+
+  border: 2px solid #000;   /* marco exterior */
 }
 
-.totales div {
+.totales .fila {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: center;
+  border-bottom: 1px solid #000; /* líneas internas */
 }
 
-.totales span:first-child {
+.totales .fila:last-child {
+  border-bottom: none; /* no duplicar línea abajo */
+}
+
+.totales .label {
+  width: 45%;
+  padding: 8px 10px;
+  text-align: right;
+  font-weight: bold;
+
   background: #0a2d5a;
   color: white;
-  padding: 6px;
-  width: 50%;
+
+  border-right: 1px solid #000; /* línea vertical central */
 }
 
-.total span {
+.totales .valor {
+  width: 55%;
+  padding: 8px 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.totales input {
+  width: 60px;
+  text-align: right;
+  border: none;
+  outline: none;
+}
+
+/* TOTAL destacado */
+.totales .total .label,
+.totales .total .valor {
+  font-size: 16px;
   font-weight: bold;
 }
 

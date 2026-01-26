@@ -84,23 +84,31 @@
 
   <!-- TOTALES -->
   <section class="totales">
-    <div><span>BASE</span><span id="base">0.00 €</span></div>
+  <div class="fila">
+    <span class="label">BASE</span>
+    <span class="valor" id="base">0.00 €</span>
+  </div>
 
-    <div>
-      <span>IVA</span>
-      <span><input type="number" id="iva" value="21" oninput="calcular()">%</span>
-    </div>
+  <div class="fila">
+    <span class="label">IVA</span>
+    <span class="valor">
+      <input type="number" id="iva" value="21" oninput="calcular()"> %
+    </span>
+  </div>
 
-    <div>
-      <span>IRPF</span>
-      <span><input type="number" id="irpf" value="0" oninput="calcular()">%</span>
-    </div>
+  <div class="fila">
+    <span class="label">IRPF</span>
+    <span class="valor">
+      <input type="number" id="irpf" value="0" oninput="calcular()"> %
+    </span>
+  </div>
 
-    <div class="total">
-      <span>TOTAL</span>
-      <span id="total">0.00 €</span>
-    </div>
-  </section>
+  <div class="fila total">
+    <span class="label">TOTAL</span>
+    <span class="valor" id="total">0.00 €</span>
+  </div>
+</section>
+
 
   <footer class="pie"></footer>
 
