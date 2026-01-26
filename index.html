@@ -4,20 +4,18 @@
   <meta charset="UTF-8">
   <title>Factura / Presupuesto</title>
 
-  <!-- Fuente bonita -->
+  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css.css">
 
-  <!-- jsPDF -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+  <!-- jsPDF + html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
 
-<!-- CONTROLES SUPERIORES HOLA -->
 <div class="controles">
   <select id="tipo" onchange="cambiarTipo()">
     <option value="FACTURA">Factura</option>
@@ -35,7 +33,7 @@
 
     <div class="subtitulo">
       <div>Fecha: <input type="date" id="fecha"></div>
-      <div>Número: <input type="number" id="numero" placeholder="numero de presupuesto o factura"></div>
+      <div>Número: <input type="number" id="numero" placeholder="Número"></div>
     </div>
   </header>
 
@@ -44,13 +42,12 @@
 
     <!-- CLIENTE -->
     <div class="cliente">
-  <h3>CLIENTE:</h3>
-
-  <input type="text" id="clienteNombre" placeholder="Comunidad de propietarios">
-  <input type="text" id="clienteCalle" placeholder="Calle y número">
-  <input type="text" id="clienteOtros" placeholder="Local, portal, patio de luces…">
-  <input type="text" id="clienteCiudad" placeholder="Ciudad">
-</div>
+      <h3>CLIENTE:</h3>
+      <textarea placeholder="Comunidad de propietarios"></textarea>
+      <textarea placeholder="Calle y número"></textarea>
+      <textarea placeholder="Local, portal, patio de luces…"></textarea>
+      <textarea placeholder="Ciudad"></textarea>
+    </div>
 
     <!-- EMPRESA -->
     <div class="empresa">
@@ -76,8 +73,8 @@
       </thead>
       <tbody id="tablaProductos">
         <tr>
-          <td><input type="text" placeholder="Descripción"></td>
-          <td><input type="number" class="precio" placeholder="Precio" oninput="calcular()"></td>
+          <td><textarea class="descripcion" placeholder="Descripción"></textarea></td>
+          <td><input type="number" class="precio" placeholder="Precio €" oninput="calcular()"></td>
         </tr>
       </tbody>
     </table>
@@ -88,21 +85,23 @@
   <!-- TOTALES -->
   <section class="totales">
     <div><span>BASE</span><span id="base">0.00 €</span></div>
+
     <div>
       <span>IVA</span>
       <span><input type="number" id="iva" value="21" oninput="calcular()">%</span>
     </div>
+
     <div>
       <span>IRPF</span>
       <span><input type="number" id="irpf" value="0" oninput="calcular()">%</span>
     </div>
+
     <div class="total">
       <span>TOTAL</span>
       <span id="total">0.00 €</span>
     </div>
   </section>
 
-  <!-- PIE -->
   <footer class="pie"></footer>
 
 </div>

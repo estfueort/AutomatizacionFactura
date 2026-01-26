@@ -7,7 +7,7 @@ function agregarFila() {
   document.getElementById("tablaProductos").insertAdjacentHTML(
     "beforeend",
     `<tr>
-      <td><input type="text" placeholder="Descripción"></td>
+      <td><textarea class="descripcion" placeholder="Descripción"></textarea></td>
       <td><input type="number" class="precio" placeholder="Precio €" oninput="calcular()"></td>
     </tr>`
   );
@@ -15,6 +15,7 @@ function agregarFila() {
 
 function calcular() {
   let base = 0;
+
   document.querySelectorAll(".precio").forEach(p => {
     base += parseFloat(p.value) || 0;
   });
@@ -28,38 +29,24 @@ function calcular() {
   document.getElementById("total").innerText = total.toFixed(2) + " €";
 }
 
-/* PDF compatible móvil + PC */
+/* Textarea auto-altura */
+document.addEventListener("input", e => {
+  if (e.target.tagName === "TEXTAREA") {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  }
+});
+
+/* PDF */
 function descargarPDF() {
   const factura = document.getElementById("factura");
-  const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const { jsPDF } = window.jspdf;
 
-  html2canvas(factura, {
-    scale: 2,
-    useCORS: true
-  }).then(canvas => {
-
+  html2canvas(factura, { scale: 2 }).then(canvas => {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
-    const { jsPDF } = window.jspdf;
     const pdf = new jsPDF("p", "mm", "a4");
 
-    const imgWidth = 210;
-    const pageHeight = 297;
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-
-    if (imgHeight > pageHeight) {
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, pageHeight);
-    } else {
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-    }
-
-    const tipo = document.getElementById("tipo").value;
-    const numero = document.getElementById("numero").value || "0000";
-    const nombre = `${tipo}_${numero}.pdf`;
-
-    if (esMovil) {
-      pdf.output("dataurlnewwindow"); // 📱 móvil
-    } else {
-      pdf.save(nombre);               // 💻 PC
-    }
+    pdf.addImage(imgData, "JPEG", 0, 0, 210, 297);
+    pdf.save("factura.pdf");
   });
 }
