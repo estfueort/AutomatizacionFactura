@@ -1,0 +1,164 @@
+body {
+  background: #cfcfcf;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.controles {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.controles select,
+.controles button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+.hoja-a4 {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  margin: auto;
+  box-shadow: 0 0 12px rgba(0,0,0,.3);
+  position: relative;
+  color: #0a2d5a;
+}
+
+/* ENCABEZADO */
+.encabezado {
+  height: 40mm;
+  background: linear-gradient(to right, #0a2d5a, #3c8cdc);
+  color: white;
+  padding: 20px;
+}
+
+.encabezado h1 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subtitulo {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+/* DATOS */
+.datos {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  align-items: stretch;   /* misma altura */
+}
+
+.empresa,
+.cliente {
+  width: 50%;             /* mismo ancho */
+  padding: 15px;
+  box-sizing: border-box;
+  min-height: 130px;      /* mismo largo (alto) */
+}
+
+/* EMPRESA a la izquierda */
+.empresa {
+  text-align: right;
+}
+
+/* CLIENTE a la derecha */
+.cliente {
+  text-align: left;
+}
+
+
+.datos h3 {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
+/* TABLA */
+.bloque-tabla {
+  padding: 0 20px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  border: 1px solid #0a2d5a; /* líneas verticales y horizontales */
+  padding: 8px;
+}
+
+.tabla th {
+  background: #0a2d5a;
+  color: white;
+  text-align: left;
+}
+
+.tabla td {
+  background: white;
+}
+.tabla th:first-child,
+.tabla td:first-child {
+  width: 66.66%;
+}
+
+.tabla th:last-child,
+.tabla td:last-child {
+  width: 33.33%;
+}
+
+
+.tabla input {
+  width: 100%;
+  border: none;
+}
+
+/* TOTALES */
+.totales {
+  width: 45%;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.totales div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.totales span:first-child {
+  background: #0a2d5a;
+  color: white;
+  font-weight: bold;
+  padding: 6px;
+  width: 50%;
+}
+
+.totales input {
+  width: 50px;
+}
+
+.total span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* PIE */
+.pie {
+  height: 15mm;
+  background: linear-gradient(to right, #0a2d5a, #3c8cdc);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
