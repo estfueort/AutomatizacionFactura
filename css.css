@@ -41,6 +41,10 @@ body {
   font-family: Arial, sans-serif;
   outline: none;
 }
+.encabezado input:hover {
+  background: rgba(255,255,255,0.1);
+}
+
 
 /* Icono del calendario en blanco (Chrome) */
 .encabezado input[type="date"]::-webkit-calendar-picker-indicator {
