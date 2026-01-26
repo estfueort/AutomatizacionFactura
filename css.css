@@ -32,6 +32,21 @@ body {
   color: white;
   padding: 20px;
 }
+/* Inputs invisibles (fecha y número) */
+.encabezado input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  outline: none;
+}
+
+/* Icono del calendario en blanco (Chrome) */
+.encabezado input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 
 .encabezado h1 {
   margin: 0;
