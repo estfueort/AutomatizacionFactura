@@ -61,7 +61,6 @@ textarea {
 }
 
 /* TABLA */
-/* TABLA */
 .tabla {
   width: 100%;
   border-collapse: collapse;
@@ -73,16 +72,12 @@ textarea {
   padding: 8px;
 }
 
-/* 🔹 ENCABEZADOS SOLO DESCRIPCIÓN Y PRECIO */
 .tabla th {
-  background: #0a2d5a;      /* azul marino */
-  color: white;             /* letras blancas */
-  text-transform: uppercase;
-  font-weight: bold;
+  background: #0a2d5a;
+  color: white;
   text-align: center;
 }
 
-/* Proporciones */
 .col-desc {
   width: 66.66%;
 }
@@ -92,25 +87,6 @@ textarea {
   text-align: right;
 }
 
-/* Precio alineado */
-.precio {
-  width: 100%;
-  text-align: right;
-  border: none;
-  outline: none;
-}
-
-/* 🔹 2/3 y 1/3 */
-.col-desc {
-  width: 66.66%;
-}
-
-.col-precio {
-  width: 33.33%;
-  text-align: right;
-}
-
-/* Precio alineado */
 .precio {
   width: 100%;
   text-align: right;
@@ -128,17 +104,13 @@ textarea {
 /* TOTALES */
 .totales {
   width: 40%;
-  margin: 20px 20px 40px auto; /* 👉 totalmente a la derecha */
+  margin: 20px 20px 40px auto;
   border: 2px solid #000;
 }
 
 .totales .fila {
   display: flex;
   border-bottom: 1px solid #000;
-}
-
-.totales .fila:last-child {
-  border-bottom: none;
 }
 
 .totales .label {

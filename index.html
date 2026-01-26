@@ -28,7 +28,7 @@
     <h1 id="tipoTitulo">FACTURA</h1>
     <div class="subtitulo">
       <div>Fecha: <input type="date"></div>
-      <div>Número: <input type="number" placeholder="Número"></div>
+      <div>Número: <input type="number" id="numeroDoc" placeholder="Número"></div>
     </div>
   </header>
 
@@ -65,13 +65,13 @@
         <tr>
           <td class="col-desc"><textarea placeholder="Descripción"></textarea></td>
           <td class="col-precio">
-            <input type="number" class="precio" placeholder="Precio(€)" oninput="calcular() ">
+            <input type="number" class="precio" placeholder="Precio (€)" oninput="calcular()">
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div class="acciones-lineas">
+    <div class="acciones-lineas no-pdf">
       <button onclick="agregarFila()">➕ Añadir línea</button>
       <button onclick="eliminarFila()">➖ Eliminar línea</button>
     </div>

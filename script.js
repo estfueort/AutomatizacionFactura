@@ -46,10 +46,17 @@ document.addEventListener("input", e => {
   }
 });
 
-/* PDF multipágina */
+/* PDF multipágina + ocultar botones + nombre dinámico */
 function descargarPDF() {
   const factura = document.getElementById("factura");
   const { jsPDF } = window.jspdf;
+
+  const tipo = document.getElementById("tipo").value;
+  const numero = document.getElementById("numeroDoc").value || "SIN_NUMERO";
+  const nombreArchivo = `${tipo}_${numero}.pdf`;
+
+  const ocultar = document.querySelectorAll(".no-pdf");
+  ocultar.forEach(el => el.style.display = "none");
 
   html2canvas(factura, { scale: 2 }).then(canvas => {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
@@ -72,6 +79,8 @@ function descargarPDF() {
       heightLeft -= pageHeight;
     }
 
-    pdf.save("factura.pdf");
+    pdf.save(nombreArchivo);
+
+    ocultar.forEach(el => el.style.display = "flex");
   });
 }
