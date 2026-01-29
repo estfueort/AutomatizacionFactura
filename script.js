@@ -1,15 +1,21 @@
+/* ===============================
+   CAMBIAR FACTURA / PRESUPUESTO
+================================ */
 function cambiarTipo() {
   document.getElementById("tipoTitulo").innerText =
     document.getElementById("tipo").value;
 }
 
+/* ===============================
+   FILAS DE PRODUCTOS
+================================ */
 function agregarFila() {
   document.getElementById("tablaProductos").insertAdjacentHTML(
     "beforeend",
     `<tr>
-      <td class="col-desc"><textarea></textarea></td>
+      <td class="col-desc"><textarea placeholder="Descripción"></textarea></td>
       <td class="col-precio">
-        <input type="number" class="precio" oninput="calcular()">
+        <input type="number" class="precio" placeholder="Precio (€)" oninput="calcular()">
       </td>
     </tr>`
   );
@@ -23,6 +29,9 @@ function eliminarFila() {
   }
 }
 
+/* ===============================
+   CÁLCULOS
+================================ */
 function calcular() {
   let base = 0;
   document.querySelectorAll(".precio").forEach(p => {
@@ -38,7 +47,9 @@ function calcular() {
   document.getElementById("total").innerText = total.toFixed(2) + " €";
 }
 
-/* Auto altura textarea */
+/* ===============================
+   AUTO ALTURA TEXTAREA
+================================ */
 document.addEventListener("input", e => {
   if (e.target.tagName === "TEXTAREA") {
     e.target.style.height = "auto";
@@ -46,7 +57,35 @@ document.addEventListener("input", e => {
   }
 });
 
-/* PDF multipágina + ocultar botones + nombre dinámico */
+/* ===============================
+   CONVERTIR TEXTAREA A DIV (PDF)
+================================ */
+function reemplazarTextareasPorDivs() {
+  document.querySelectorAll("textarea").forEach(textarea => {
+    const div = document.createElement("div");
+    div.className = "textarea-pdf";
+    div.innerText = textarea.value || "";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.wordBreak = "break-word";
+    div.style.width = textarea.offsetWidth + "px";
+    div.style.minHeight = textarea.offsetHeight + "px";
+
+    textarea.style.display = "none";
+    textarea.parentNode.insertBefore(div, textarea);
+  });
+}
+
+function restaurarTextareas() {
+  document.querySelectorAll(".textarea-pdf").forEach(div => {
+    const textarea = div.nextSibling;
+    textarea.style.display = "";
+    div.remove();
+  });
+}
+
+/* ===============================
+   PDF MULTIPÁGINA + NOMBRE DINÁMICO
+================================ */
 function descargarPDF() {
   const factura = document.getElementById("factura");
   const { jsPDF } = window.jspdf;
@@ -55,10 +94,14 @@ function descargarPDF() {
   const numero = document.getElementById("numeroDoc").value || "SIN_NUMERO";
   const nombreArchivo = `${tipo}_${numero}.pdf`;
 
+  // Ocultar botones
   const ocultar = document.querySelectorAll(".no-pdf");
   ocultar.forEach(el => el.style.display = "none");
 
-  html2canvas(factura, { scale: 2 }).then(canvas => {
+  // Convertir textarea a div
+  reemplazarTextareasPorDivs();
+
+  html2canvas(factura, { scale: 2, useCORS: true }).then(canvas => {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const pdf = new jsPDF("p", "mm", "a4");
 
@@ -81,6 +124,8 @@ function descargarPDF() {
 
     pdf.save(nombreArchivo);
 
+    // Restaurar
+    restaurarTextareas();
     ocultar.forEach(el => el.style.display = "flex");
   });
 }
