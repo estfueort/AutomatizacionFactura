@@ -4,106 +4,128 @@
   <meta charset="UTF-8">
   <title>Factura / Presupuesto</title>
 
+  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="css.css">
 
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
 
-<div class="controles">
-  <select id="tipo" onchange="cambiarTipo()">
-    <option value="FACTURA">Factura</option>
-    <option value="PRESUPUESTO">Presupuesto</option>
-  </select>
+  <!-- CONTROLES -->
+  <div class="controles no-pdf">
+    <select id="tipo" onchange="cambiarTipo()">
+      <option value="FACTURA">Factura</option>
+      <option value="PRESUPUESTO">Presupuesto</option>
+    </select>
 
-  <button onclick="descargarPDF()">📄 Descargar PDF</button>
-</div>
+    <button onclick="descargarPDF()">📄 Descargar PDF</button>
 
-<div class="hoja-a4" id="factura">
+    <button onclick="borrarTodo()">🗑 Borrar todo</button>
+  </div>
+  <!-- VISTA PREVIA / FORMULARIO -->
+  <div class="hoja-a4" id="factura">
 
-  <header class="encabezado">
-    <h1 id="tipoTitulo">FACTURA</h1>
-    <div class="subtitulo">
-      <div>Fecha: <input type="date"></div>
-      <div>Número: <input type="number" id="numeroDoc" placeholder="Número"></div>
-    </div>
-  </header>
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+      <h1 id="tipoTitulo">FACTURA</h1>
+      <div class="subtitulo">
+        <div>Fecha: <input type="date" id="fecha"></div>
+        <div>Número: <input type="number" id="numeroDoc" placeholder="Número"></div>
+      </div>
+    </header>
 
-  <section class="datos">
-    <div class="cliente">
-      <h3>CLIENTE:</h3>
-      <textarea placeholder="Comunidad de propietarios"></textarea>
-      <textarea placeholder="Dirección"></textarea>
-      <textarea placeholder="Otros"></textarea>
-      <textarea placeholder="Ciudad"></textarea>
-    </div>
+    <!-- DATOS -->
+    <section class="datos">
+      <div class="cliente">
+        <h3>CLIENTE</h3>
+        <textarea id="clienteNombre" placeholder="Nombre / Comunidad"></textarea>
+        <textarea id="clienteDireccion" placeholder="Dirección"></textarea>
+        <textarea id="clienteOtros" placeholder="Otros datos"></textarea>
+        <textarea id="clienteCiudad" placeholder="Ciudad"></textarea>
+      </div>
 
-    <div class="empresa">
-      <h3>EMPRESA:</h3>
-      <strong>Jhon Alexander Caballero</strong>
-      <p><strong>Calle Guadalquivir 11</strong></p>
-      <p><strong>Alicante · 03699</strong></p>
-      <p><strong>DNI 1407574N</strong></p>
-      <p><strong>688 334 111</strong></p>
-      <p><strong>caballerojhon968@gmail.com</strong></p>
-    </div>
-  </section>
+      <div class="empresa">
+        <h3>EMPRESA</h3>
+        <strong>Jhon Alexander Caballero</strong>
+        <p>Calle Guadalquivir 11</p>
+        <p>Alicante · 03699</p>
+        <p>DNI 1407574N</p>
+        <p>688 334 111</p>
+        <p>caballerojhon968@gmail.com</p>
+      </div>
+    </section>
 
-  <section class="bloque-tabla">
-    <table class="tabla">
-      <thead>
-        <tr>
-          <th class="col-desc">DESCRIPCIÓN</th>
-          <th class="col-precio">PRECIO</th>
-        </tr>
-      </thead>
+    <!-- TABLA -->
+    <section class="bloque-tabla">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th class="col-desc">DESCRIPCIÓN</th>
+            <th class="col-precio">PRECIO</th>
+          </tr>
+        </thead>
 
-      <tbody id="tablaProductos">
-        <tr>
-          <td class="col-desc"><textarea placeholder="Descripción"></textarea></td>
-          <td class="col-precio">
-            <input type="number" class="precio" placeholder="Precio (€)" oninput="calcular()">
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody id="tablaProductos">
+          <tr>
+            <td class="col-desc">
+              <textarea placeholder="Descripción del trabajo"></textarea>
+            </td>
+            <td class="col-precio">
+              <input type="number" class="precio" placeholder="0.00" oninput="calcular()">
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div class="acciones-lineas no-pdf">
-      <button onclick="agregarFila()">➕ Añadir línea</button>
-      <button onclick="eliminarFila()">➖ Eliminar línea</button>
-    </div>
-  </section>
+      <div class="acciones-lineas no pdf">
+        <button onclick="agregarFila()">➕ Añadir línea</button>
+        <button onclick="eliminarFila()">➖ Eliminar línea</button>
+      </div>
+    </section>
 
-  <section class="totales">
-    <div class="fila">
-      <span class="label">BASE</span>
-      <span class="valor" id="base">0.00 €</span>
-    </div>
-    <div class="fila">
-      <span class="label">IVA</span>
-      <span class="valor">
-        <input type="number" id="iva" value="21" oninput="calcular()"> %
-      </span>
-    </div>
-    <div class="fila">
-      <span class="label">IRPF</span>
-      <span class="valor">
-        <input type="number" id="irpf" value="0" oninput="calcular()"> %
-      </span>
-    </div>
-    <div class="fila total">
-      <span class="label">TOTAL</span>
-      <span class="valor" id="total">0.00 €</span>
-    </div>
-  </section>
+    <!-- TOTALES -->
+    <section class="totales">
+      <div class="fila">
+        <span class="label">BASE</span>
+        <span class="valor" id="base">0.00 €</span>
+      </div>
 
-  <footer class="pie"></footer>
+      <div class="fila">
+        <span class="label">IVA</span>
+        <span class="valor">
+          <input type="number" id="iva" value="21" oninput="calcular()"> %
+        </span>
+      </div>
 
-</div>
+      <div class="fila">
+        <span class="label">IRPF</span>
+        <span class="valor">
+          <input type="number" id="irpf" value="0" oninput="calcular()"> %
+        </span>
+      </div>
 
-<script src="script.js"></script>
+      <div class="fila total">
+        <span class="label">TOTAL</span>
+        <span class="valor" id="total">0.00 €</span>
+      </div>
+    </section>
+
+    <!-- PIE -->
+    <footer class="pie"></footer>
+
+  </div>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
 </body>
 </html>

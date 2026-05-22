@@ -4,6 +4,8 @@
 function cambiarTipo() {
   document.getElementById("tipoTitulo").innerText =
     document.getElementById("tipo").value;
+
+  guardarDatos();
 }
 
 /* ===============================
@@ -13,19 +15,25 @@ function agregarFila() {
   document.getElementById("tablaProductos").insertAdjacentHTML(
     "beforeend",
     `<tr>
-      <td class="col-desc"><textarea placeholder="Descripción"></textarea></td>
+      <td class="col-desc">
+        <textarea placeholder="Descripción"></textarea>
+      </td>
       <td class="col-precio">
         <input type="number" class="precio" placeholder="Precio (€)" oninput="calcular()">
       </td>
     </tr>`
   );
+
+  guardarDatos();
 }
 
 function eliminarFila() {
   const tabla = document.getElementById("tablaProductos");
+
   if (tabla.rows.length > 1) {
     tabla.deleteRow(-1);
     calcular();
+    guardarDatos();
   }
 }
 
@@ -34,6 +42,7 @@ function eliminarFila() {
 ================================ */
 function calcular() {
   let base = 0;
+
   document.querySelectorAll(".precio").forEach(p => {
     base += parseFloat(p.value) || 0;
   });
@@ -45,6 +54,8 @@ function calcular() {
 
   document.getElementById("base").innerText = base.toFixed(2) + " €";
   document.getElementById("total").innerText = total.toFixed(2) + " €";
+
+  guardarDatos();
 }
 
 /* ===============================
@@ -58,11 +69,97 @@ document.addEventListener("input", e => {
 });
 
 /* ===============================
-   CONVERTIR TEXTAREA A DIV (PDF)
+   GUARDADO AUTOMÁTICO
+================================ */
+function guardarDatos() {
+  const datos = {
+    tipo: document.getElementById("tipo").value,
+    fecha: document.getElementById("fecha").value,
+    numeroDoc: document.getElementById("numeroDoc").value,
+
+    clienteNombre: document.getElementById("clienteNombre").value,
+    clienteDireccion: document.getElementById("clienteDireccion").value,
+    clienteOtros: document.getElementById("clienteOtros").value,
+    clienteCiudad: document.getElementById("clienteCiudad").value,
+
+    iva: document.getElementById("iva").value,
+    irpf: document.getElementById("irpf").value,
+
+    productos: []
+  };
+
+  document.querySelectorAll("#tablaProductos tr").forEach(fila => {
+    datos.productos.push({
+      descripcion: fila.querySelector("textarea").value,
+      precio: fila.querySelector(".precio").value
+    });
+  });
+
+  localStorage.setItem("facturaDatos", JSON.stringify(datos));
+}
+
+/* ===============================
+   CARGAR DATOS GUARDADOS
+================================ */
+function cargarDatos() {
+  const datosGuardados = localStorage.getItem("facturaDatos");
+
+  if (!datosGuardados) return;
+
+  const datos = JSON.parse(datosGuardados);
+
+  document.getElementById("tipo").value = datos.tipo || "FACTURA";
+  document.getElementById("fecha").value = datos.fecha || "";
+  document.getElementById("numeroDoc").value = datos.numeroDoc || "";
+
+  document.getElementById("clienteNombre").value = datos.clienteNombre || "";
+  document.getElementById("clienteDireccion").value = datos.clienteDireccion || "";
+  document.getElementById("clienteOtros").value = datos.clienteOtros || "";
+  document.getElementById("clienteCiudad").value = datos.clienteCiudad || "";
+
+  document.getElementById("iva").value = datos.iva || 21;
+  document.getElementById("irpf").value = datos.irpf || 0;
+
+  document.getElementById("tipoTitulo").innerText =
+    document.getElementById("tipo").value;
+
+  const tabla = document.getElementById("tablaProductos");
+  tabla.innerHTML = "";
+
+  datos.productos.forEach(producto => {
+    tabla.insertAdjacentHTML(
+      "beforeend",
+      `<tr>
+        <td class="col-desc">
+          <textarea placeholder="Descripción">${producto.descripcion}</textarea>
+        </td>
+        <td class="col-precio">
+          <input type="number" class="precio" value="${producto.precio}" oninput="calcular()">
+        </td>
+      </tr>`
+    );
+  });
+
+  calcular();
+}
+
+/* ===============================
+   BORRAR TODO
+================================ */
+function borrarTodo() {
+  if (!confirm("¿Seguro que quieres borrar todo?")) return;
+
+  localStorage.removeItem("facturaDatos");
+  location.reload();
+}
+
+/* ===============================
+   CONVERTIR TEXTAREA A DIV PARA PDF
 ================================ */
 function reemplazarTextareasPorDivs() {
   document.querySelectorAll("textarea").forEach(textarea => {
     const div = document.createElement("div");
+
     div.className = "textarea-pdf";
     div.innerText = textarea.value || "";
     div.style.whiteSpace = "pre-wrap";
@@ -94,14 +191,15 @@ function descargarPDF() {
   const numero = document.getElementById("numeroDoc").value || "SIN_NUMERO";
   const nombreArchivo = `${tipo}_${numero}.pdf`;
 
-  // Ocultar botones
   const ocultar = document.querySelectorAll(".no-pdf");
   ocultar.forEach(el => el.style.display = "none");
 
-  // Convertir textarea a div
   reemplazarTextareasPorDivs();
 
-  html2canvas(factura, { scale: 2, useCORS: true }).then(canvas => {
+  html2canvas(factura, {
+    scale: 2,
+    useCORS: true
+  }).then(canvas => {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const pdf = new jsPDF("p", "mm", "a4");
 
@@ -124,8 +222,15 @@ function descargarPDF() {
 
     pdf.save(nombreArchivo);
 
-    // Restaurar
     restaurarTextareas();
     ocultar.forEach(el => el.style.display = "flex");
   });
 }
+
+/* ===============================
+   INICIAR
+================================ */
+window.onload = () => {
+  cargarDatos();
+  calcular();
+};
