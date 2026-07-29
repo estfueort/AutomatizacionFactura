@@ -59,12 +59,26 @@ function calcular() {
 }
 
 /* ===============================
-   AUTO ALTURA TEXTAREA
+   AUTO ALTURA + GUARDADO AUTOMÁTICO
 ================================ */
 document.addEventListener("input", e => {
-  if (e.target.tagName === "TEXTAREA") {
-    e.target.style.height = "auto";
-    e.target.style.height = e.target.scrollHeight + "px";
+  if (
+    e.target.matches(
+      "input, textarea, select"
+    )
+  ) {
+    if (e.target.tagName === "TEXTAREA") {
+      e.target.style.height = "auto";
+      e.target.style.height = e.target.scrollHeight + "px";
+    }
+
+    guardarDatos();
+  }
+});
+
+document.addEventListener("change", e => {
+  if (e.target.matches("input, textarea, select")) {
+    guardarDatos();
   }
 });
 
